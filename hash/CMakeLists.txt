@@ -3,18 +3,16 @@
 
 add_library(hash
   fnv1.cpp
+  debug.cpp
   hash.cpp
+  std.cpp
 )
-
 
 macro(add_unit_test target)
   add_executable(${target} ${ARGN})
-  target_link_libraries(${target} graph)
+  target_link_libraries(${target} hash)
   add_test(${target} ${target})
 endmacro()
 
 
-# add_subdirectory(graph.test)
-# add_subdirectory(digraph.test)
-# add_subdirectory(dfs.test)
-# add_subdirectory(queue.test)
+add_subdirectory(hash.test)

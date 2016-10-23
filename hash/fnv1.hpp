@@ -37,9 +37,9 @@ constexpr std::size_t basis() { return basis_64(); }
 
 
 // The fnv1a hash algorithm.
-struct fnv1a
+struct fnv1a_hasher
 {
-  fnv1a()
+  fnv1a_hasher()
     : code(fnv1_detail::basis())
   { }
 
@@ -49,6 +49,11 @@ struct fnv1a
     unsigned char const* limit = first + n;
     for ( ; first != limit; ++first)
       code = (code ^ *first) * fnv1_detail::prime();
+  }
+
+  operator std::size_t() const 
+  {
+    return code;
   }
 
   std::size_t code;

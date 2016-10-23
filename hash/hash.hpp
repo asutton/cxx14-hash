@@ -46,15 +46,6 @@ hash_append(H& h, std::nullptr_t p)
   h(&p, sizeof(p));
 }
 
-// Hash append for array-of-T.
-template<typename H, typename T, int N>
-inline void
-hash_append(H& h, T const (&a)[N])
-{
-  for (T const& t : a)
-    hash_append(t);
-}
-
 // Range-based hash append.
 template<typename H, typename I>
 inline void
@@ -65,6 +56,19 @@ hash_append(H& h, I first, I limit)
     ++first;
   }
 }
+
+
+// A std-compatible hash function.
+template<typename H = fnv1a_hasher>
+struct std_hash
+{
+  template<typename T>
+  std::size_t operator()(T const& t) const {
+    H h;
+    hash_append(h, t);
+    return h;
+  }
+};
 
 } // namespace origin
 
